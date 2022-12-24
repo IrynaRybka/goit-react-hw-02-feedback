@@ -2,10 +2,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 const Section = ({ title, children }) => {
-  <section>
+  return (  <section>
     <h1>{title}</h1>
     {children}
-  </section>;
+  </section>)
+
 };
 Section.propTypes = {
   title: PropTypes.string.isRequired,

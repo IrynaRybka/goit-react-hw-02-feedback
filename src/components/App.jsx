@@ -3,7 +3,7 @@ import FeedbackOptions from './FeedbackOptions/FeedbackOptions';
 import Statistic from './Statistic/Statistic';
 import Notification from './Notification/Notification';
 import Section from './Section/Section';
-
+import css from './App.module.css';
 
 export default class App extends Component {
   state = {
@@ -34,7 +34,7 @@ export default class App extends Component {
     const result = this.countTotalFeedback();
     const renderOptions = Object.keys(this.state);
     return (
-      <div>
+      <div className={css.container}>
         <Section title="Please leave feedback">
 					  <FeedbackOptions options={renderOptions} onLeaveFeedback={this.leaveFeedback}/>
 				</Section>
