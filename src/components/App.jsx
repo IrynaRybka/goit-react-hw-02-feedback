@@ -36,12 +36,9 @@ export default class App extends Component {
     return (
       <div>
         <Section title="Please leave feedback">
-					<FeedbackOptions options={renderOptions} onLeaveFeedback={this.leaveFeedback}/>
+					  <FeedbackOptions options={renderOptions} onLeaveFeedback={this.leaveFeedback}/>
 				</Section>
-
-					<Notification message="No feedback given" />
-			
-					<Section title={"Statistics"}>
+        {result === 0 ? (<Notification message="No feedback given"/>) : (<Section title={"Statistics"}>
 						<Statistic
 							good={this.state.good}
 							neutral={this.state.neutral}
@@ -49,7 +46,7 @@ export default class App extends Component {
 							total={result}
 							positivePercentage={this.countPositivePercentage()}
 						/>
-					</Section>
+					</Section>)}		
       </div>
     );
   }
