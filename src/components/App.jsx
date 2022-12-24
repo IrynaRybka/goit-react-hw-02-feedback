@@ -1,56 +1,56 @@
-import {BsFillCircleFill} from 'react-icons/bs';
+import React, { Component } from 'react';
+import FeedbackOptions from './FeedbackOptions/FeedbackOptions';
+import Statistic from './Statistic/Statistic';
+import Notification from './Notification/Notification';
+import Section from './Section/Section';
 
 
-import Profile from './Profile/Profile';
-import SectionStatistics from './Statistics/SectionStatistics';
-import Statistics from './Statistics/Statistics';
-import FriendList from './FriendList/FriendList';
-import TransactionHistory from './Transaction/TransactionHistory';
+export default class App extends Component {
+  state = {
+    good: 0,
+    neutral: 0,
+    bad: 0,
+  };
 
+  leaveFeedback = (e) => {
+		const name = e.target.name;
+		this.setState((prevState) => ({
+			[name]: prevState[name] + 1
+		}));
+	};
 
-import user from '../user.json';
-import data from '../data.json';
-import friends from '../friends.json';
-import transactions from '../transactions.json';
+  countTotalFeedback = () => {
+    const { good, neutral, bad } = this.state;
+    const ollFeedback = good + neutral + bad;
+    return ollFeedback;
+  };
 
+  countPositivePercentage = () => {
+    const { good } = this.state;
+    return Math.round((good / this.countTotalFeedback()) * 100);
+  };
 
+  render() {
+    const result = this.countTotalFeedback();
+    const renderOptions = Object.keys(this.state);
+    return (
+      <div>
+        <Section title="Please leave feedback">
+					<FeedbackOptions options={renderOptions} onLeaveFeedback={this.leaveFeedback}/>
+				</Section>
 
-const friendIsOnline = true;
-
-export const App = () => {
-  return (
-    <div
-      style={{
-        height: '100vh',
-        fontSize: 40,
-        color: '#010101',
-      }}
-    >
-      <Profile
-        tag={user.tag}
-        username={user.username}
-        location={user.location}
-        avatar={user.avatar}
-        followers={user.stats.followers}
-        views={user.stats.views}
-        likes={user.stats.likes}
-      />
-      <SectionStatistics title={"Upload stats"}>
-      <Statistics props={data} />
-      </SectionStatistics>
-       
-    <div>
-        {friends.map(friend => (
-          <FriendList
-            key={friend.id}
-            avatar={friend.avatar}
-            isOnline={friend.isOnline === friendIsOnline ? <BsFillCircleFill style={{width: '32px', fill: 'green'}}/> : <BsFillCircleFill style={{width: '32px', fill: 'red'}}/>}
-            name={friend.name}
-          />
-        ))}
+					<Notification message="No feedback given" />
+			
+					<Section title={"Statistics"}>
+						<Statistic
+							good={this.state.good}
+							neutral={this.state.neutral}
+							bad={this.state.bad}
+							total={result}
+							positivePercentage={this.countPositivePercentage()}
+						/>
+					</Section>
       </div>
-        <TransactionHistory items={transactions} />
-     
-    </div>
-  );
-};
+    );
+  }
+}
